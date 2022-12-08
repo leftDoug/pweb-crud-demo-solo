@@ -1,0 +1,51 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:dialog header="#{msgs.label_asignatura}" showEffect="fade" modal="true" widgetVar="manageAsignaturaDialog" responsive="true">
+		<p:outputPanel id="manage-asignatura-content" class="ui-fluid">
+			<p:outputPanel rendered="#{not empty manageAsignaturaBean.selectedAsignatura}">
+				<p:panelGrid layout="grid" columns="1">
+					<h:panelGroup>
+					
+						<div class="p-field">
+							<p:outputLabel for="@next" value="#{msgs.label_asignatura}" />
+							<p:inputText id="signature" required="true" value="#{manageAsignaturaBean.selectedAsignatura.asignatura}" />
+							<p:message for="@previous" ></p:message>
+						</div>
+						
+						<div class="p-field">
+							<p:outputLabel for="@next" value="#{msgs.label_horas}" />
+							<p:spinner id="hours" required="true" min="2" max="100" stepFactor="2" rotate="true" round="true"
+								value="#{manageAsignaturaBean.selectedAsignatura.horas}" />
+							<p:message for="@previous"></p:message>
+						</div>
+						
+						<div class="p-field">
+							<p:outputLabel for="@next" value="#{msgs.label_anno}" />
+							<p:selectOneMenu id="year" required="true" value="#{manageAsignaturaBean.selectedAsignatura.idanno}"
+								hideNoSelectionOption="#{not empty manageAsignaturaBean.selectedAsignatura.idanno}">
+								<p:ajax update="@this" process="@this" />
+								<f:selectItem itemLabel="#{msgs.label_seleccione}" itemValue="#{null}" noSelectionOption="true"/>
+								<f:selectItem itemLabel="#{msgs.label_1ro}" itemValue="1" />
+								<f:selectItem itemLabel="#{msgs.label_2do}" itemValue="2" />
+								<f:selectItem itemLabel="#{msgs.label_3ro}" itemValue="3" />
+								<f:selectItem itemLabel="#{msgs.label_4to}" itemValue="4" />
+							</p:selectOneMenu>
+							<p:message for="@previous"></p:message>
+						</div>
+						
+					</h:panelGroup>
+				</p:panelGrid>
+			</p:outputPanel>
+		</p:outputPanel>
+
+		<f:facet name="footer">
+			<p:commandButton value="#{msgs.btn_guardar}" icon="pi pi-check" actionListener="#{manageAsignaturaBean.saveAsignatrura}"
+				update="manage-asignatura-content" process="manage-asignatura-content @this" />
+			<p:commandButton value="#{msgs.btn_cancelar}" icon="pi pi-times" onclick="PF('manageAsignaturaDialog').hide()" class="ui-button-secondary" />
+		</f:facet>
+	</p:dialog>
+</ui:composition>

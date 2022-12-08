@@ -1,0 +1,66 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:dialog header="Estudiante" showEffect="fade" modal="true"
+		widgetVar="manageEstudianteDialog" responsive="true">
+		<p:outputPanel id="manage-estudiante-content" class="ui-fluid">
+			<p:outputPanel rendered="#{not empty manageEstudianteBean.selectedEstudiante}">
+				<p:panelGrid layout="grid" columns="1">
+					<h:panelGroup>
+						<div class="p-field">
+							<p:outputLabel for="@next">Nombre</p:outputLabel>
+							<p:inputText id="name" required="true" 
+								value="#{manageEstudianteBean.selectedEstudiante.nombre}" />
+							<p:message for="@previous" ></p:message>
+						</div>
+						
+						<div class="p-field">
+							<p:outputLabel for="@next">Apellido</p:outputLabel>
+							<p:inputText id="last_name" required="true" 
+								value="#{manageEstudianteBean.selectedEstudiante.apellido}" />
+							<p:message for="@previous" ></p:message>
+						</div>
+						
+						<div class="p-field">
+							<p:outputLabel for="@next">Numero</p:outputLabel>
+							<p:spinner id="number" min="1" max="25" rotate="true"
+								value="#{manageEstudianteBean.selectedEstudiante.numero}" />
+							<p:message for="@previous"></p:message>
+						</div>
+						
+						<div class="p-field">
+							<p:outputLabel for="@next">Grupo</p:outputLabel>
+							<p:spinner id="group" min="1" max="5" rotate="true"
+								value="#{manageEstudianteBean.selectedEstudiante.idgrupo}" />
+							<p:message for="@previous"></p:message>
+						</div>
+						
+						<div class="p-field">
+							<p:outputLabel for="@next">Sexo</p:outputLabel>
+							<p:selectOneMenu id="sex" required="true"
+								value="#{manageEstudianteBean.selectedEstudiante.idsexo}"
+								hideNoSelectionOption="#{not empty manageEstudianteBean.selectedEstudiante.idsexo}">
+								<p:ajax update="@this" process="@this" />
+								<f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true"/>
+								<f:selectItem itemLabel="Masculino" itemValue="1" />
+								<f:selectItem itemLabel="Femenino" itemValue="2" />
+							</p:selectOneMenu>
+							<p:message for="@previous"></p:message>
+						</div>
+					</h:panelGroup>
+				</p:panelGrid>
+			</p:outputPanel>
+		</p:outputPanel>
+
+		<f:facet name="footer">
+			<p:commandButton value="Guardar" icon="pi pi-check"
+				actionListener="#{manageEstudianteBean.saveEstudiante}"
+				update="manage-estudiante-content" process="manage-estudiante-content @this" />
+			<p:commandButton value="Cancelar" icon="pi pi-times"
+				onclick="PF('manageEstudianteDialog').hide()" class="ui-button-secondary" />
+		</f:facet>
+	</p:dialog>
+</ui:composition>
